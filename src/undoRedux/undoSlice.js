@@ -6,9 +6,9 @@ const initialState = {
   past: [],
   present: [],
   future: [],
-  experiments:[],
+  experiments: [],
   saveexperiment: [],
-  copy_present:[],
+  copy_present: [],
   changesDone: false,
 };
 
@@ -38,9 +38,16 @@ export const userSlice = createSlice({
       state.present = state.future;
       state.changesDone = false;
     },
-    savechanges: (state,action) => {
-      state.experiments=[...state.experiments,action.payload];
+    savechanges: (state, action) => {
+      state.experiments = [...state.experiments, action.payload];
+
       state.past = [];
+    },
+    removesave: (state, action) => {
+      const removeItem = state.experiments.filter(
+        (exp) => exp.time !== action.payload
+      );
+      state.experiments = removeItem;
     },
     deleteRow: (state, action) => {
       state.present = state.present.filter(
@@ -59,21 +66,23 @@ export const userSlice = createSlice({
       state.future = state.present;
     },
   },
+
   extraReducers(builder) {
     builder.addCase(fetchProducts.fulfilled, (state, action) => {
-        state.present = action.payload;
-        state.future = action.payload;
+      state.present = action.payload;
+      state.future = action.payload;
     });
   },
 });
 export const {
-    updateUser,
-    resetChanges,
-    savechanges,
-    undo,
-    deleteRow,
-    deleteMultipleRows,
-    showSaveExp,
-  } = userSlice.actions;
+  updateUser,
+  resetChanges,
+  savechanges,
+  undo,
+  deleteRow,
+  deleteMultipleRows,
+  showSaveExp,
+  removesave,
+} = userSlice.actions;
 export { fetchProducts };
 export default userSlice.reducer;

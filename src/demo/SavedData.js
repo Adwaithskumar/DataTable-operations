@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 const SavedData = () => {
   const dt = useRef(null);
   const location = useLocation();
+
   const [selectedProducts, setSelectedProducts] = useState(null);
   const imageBodyTemplate = (rowData) => {
     return (

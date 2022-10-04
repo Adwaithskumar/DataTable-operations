@@ -3,6 +3,7 @@ import "./App.css";
 import DataTableCrudDemo from "./demo/DataTableCrudDemo";
 import { Routes, Route } from "react-router-dom";
 import SavedData from "./demo/SavedData";
+import Playground from "./demo/playground";
 
 function App() {
   return (
@@ -10,7 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<DataTableCrudDemo />} />
         <Route path="saveddata" element={<SavedData />} />
-      </Routes>
+        <Route path="/" element={<Playground />} />
+       </Routes>
    
     </>
   );

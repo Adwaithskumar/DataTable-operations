@@ -7,6 +7,7 @@ import React, { useState, useRef } from "react";
 import { classNames } from "primereact/utils";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { useLocation } from "react-router-dom";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { Rating } from "primereact/rating";
@@ -29,9 +30,9 @@ import {
   removesave,
 } from "../undoRedux/undoSlice";
 import { useDispatch, useSelector } from "react-redux";
-import Playground from "./playground";
+// import Playground from "./playground";
 
-const DataTableCrudDemo = () => {
+const Playground = () => {
   let emptyProduct = {
     id: null,
     name: "",
@@ -71,6 +72,7 @@ const DataTableCrudDemo = () => {
       currency: "USD",
     });
   };
+  const location = useLocation();
 
   const openNew = () => {
     setProduct(emptyProduct);
@@ -216,10 +218,33 @@ const DataTableCrudDemo = () => {
     _product[`${name}`] = val;
     setProduct(_product);
   };
-
+  // const [checked, setChecked] = useState([]);
+  // const handleChecked = (e, index) => {
+  //   let prev = checked;
+  //   let itemIndex = prev.indexOf(index);
+  //   if (itemIndex !== -1) {
+  //     prev.splice(itemIndex, 1);
+  //   } else {
+  //     prev.push(index);
+  //   }
+  //   setChecked([...prev]);
+  // };
+  // //Showing saved data
+  const [isChecked, setIsChecked] = useState(false);
   const experimentDetails = (e) => {
     return (
       <>
+        <input
+          type="checkbox"
+          // name={name}
+          // value={name}
+          // checked={isChecked}
+          // id={`custom-checkbox-${idx}`}
+          // onChange={(e) => handleChecked(e)}
+        />
+        {/* <h1>{item.time}</h1>
+          <h1>{item.experiment_name}</h1>
+          <h1>{item.experiment_number}</h1> */}
         <Button
           label="Show"
           icon="pi pi-calendar-times"
@@ -230,6 +255,7 @@ const DataTableCrudDemo = () => {
           label="Remove"
           icon="pi pi-trash"
           className="p-button-danger"
+          // onClick={() => dispatch(removesave(idx))}
           onClick={() => removeSave(e.time)}
         />
         <Button
@@ -250,15 +276,10 @@ const DataTableCrudDemo = () => {
 
   function removeSave(time) {
     dispatch(removesave(time));
-
-    // let newsave = experiments.filter((vall) => vall.idx !== experiments.idx);
-    // dispatch(savechanges(newsave));
   }
 
   function playgroud(time) {
     const temp = experiments.filter((exp) => exp.time === time);
-
-    setSaveOpen(false);
 
     navigate("/", { state: temp[0].product });
   }
@@ -584,7 +605,7 @@ const DataTableCrudDemo = () => {
 
         <DataTable
           ref={dt}
-          value={products}
+          value={location.state}
           selection={selectedProducts}
           onSelectionChange={(e) => setSelectedProducts(e.value)}
           dataKey="id"
@@ -811,11 +832,8 @@ const DataTableCrudDemo = () => {
           )}
         </div>
       </Dialog>
-      <h1>Playground</h1>
-      <Playground />
-      {/* {Playground()} */}
     </div>
   );
 };
 
-export default DataTableCrudDemo;
+export default Playground;
